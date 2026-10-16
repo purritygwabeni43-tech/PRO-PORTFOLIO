@@ -3,8 +3,8 @@
     <div class="eye" :style="{ backgroundImage: `url(${currentEye})` }">
       <div
         class="eyelid"
-        @animationstart="scheduleLanguageChange"
-        @animationiteration="scheduleLanguageChange"
+        :class="{ 'eyelid-active': active }"
+        @animationiteration="changeLanguage"
       ></div>
       <div class="tag">{{ currentTag }}</div>
     </div>
@@ -12,10 +12,17 @@
 </template>
 
 <script setup>
-import { onBeforeUnmount, ref } from 'vue'
+import { ref } from 'vue'
 import eyeJS from '@/assets/script eyes.jpg'
 import eyePython from '@/assets/script eyes 2.jpeg'
 import eyePHP from '@/assets/script eyes 3.jpeg'
+
+defineProps({
+  active: {
+    type: Boolean,
+    default: false,
+  },
+})
 
 const eyes = [
   { img: eyeJS, tag: 'JAVASCRIPT' },
@@ -26,18 +33,12 @@ const eyes = [
 const index = ref(0)
 const currentEye = ref(eyes[0].img)
 const currentTag = ref(eyes[0].tag)
-let languageChangeTimeout
 
-const scheduleLanguageChange = () => {
-  clearTimeout(languageChangeTimeout)
-  languageChangeTimeout = setTimeout(() => {
-    index.value = (index.value + 1) % eyes.length
-    currentEye.value = eyes[index.value].img
-    currentTag.value = eyes[index.value].tag
-  }, 3500 * 0.89)
+const changeLanguage = () => {
+  index.value = (index.value + 1) % eyes.length
+  currentEye.value = eyes[index.value].img
+  currentTag.value = eyes[index.value].tag
 }
-
-onBeforeUnmount(() => clearTimeout(languageChangeTimeout))
 </script>
 
 <style scoped>
@@ -55,7 +56,7 @@ onBeforeUnmount(() => clearTimeout(languageChangeTimeout))
   border: 2px solid rgb(255 255 255 / 10%);
   border-radius: 50%;
   background-position: center;
-  background-size: cover;
+  background-size: 100% 100%;
   box-shadow: 0 0 80px rgb(0 255 136 / 18%);
 }
 
@@ -63,9 +64,12 @@ onBeforeUnmount(() => clearTimeout(languageChangeTimeout))
   position: absolute;
   z-index: 5;
   inset: 0;
-  transform: scaleY(0);
+  transform: scaleY(1);
   transform-origin: top;
   background: #0a0a0a;
+}
+
+.eyelid-active {
   animation: blink 3.5s infinite;
 }
 
@@ -86,13 +90,15 @@ onBeforeUnmount(() => clearTimeout(languageChangeTimeout))
 
 @keyframes blink {
   0%,
-  85%,
-  100% {
+  95% {
     transform: scaleY(0);
   }
-  89%,
-  95% {
+  97%,
+  98% {
     transform: scaleY(1);
+  }
+  100% {
+    transform: scaleY(0);
   }
 }
 
@@ -103,8 +109,9 @@ onBeforeUnmount(() => clearTimeout(languageChangeTimeout))
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .eyelid {
+  .eyelid-active {
     animation: none;
+    transform: scaleY(0);
   }
 }
 </style>

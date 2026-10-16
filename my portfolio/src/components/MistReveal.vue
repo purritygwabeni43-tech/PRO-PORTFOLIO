@@ -12,21 +12,26 @@
 </template>
 
 <script setup>
-import { ref, onMounted } from 'vue'
+import { onBeforeUnmount, onMounted, ref } from 'vue'
 const emit = defineEmits(['revealed'])
 const show = ref(true)
 const wiping = ref(false)
+let wipeTimeout
+let revealTimeout
 
 onMounted(() => {
-  // start wipe after 1.2s
-  setTimeout(() => {
+  wipeTimeout = window.setTimeout(() => {
     wiping.value = true
-    // remove overlay after wipe animation
-    setTimeout(() => {
+    revealTimeout = window.setTimeout(() => {
       show.value = false
       emit('revealed')
-    }, 1200)
+    }, 2500)
   }, 1200)
+})
+
+onBeforeUnmount(() => {
+  window.clearTimeout(wipeTimeout)
+  window.clearTimeout(revealTimeout)
 })
 </script>
 

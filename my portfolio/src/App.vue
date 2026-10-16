@@ -3,11 +3,19 @@ import { ref } from 'vue'
 import { Swiper, SwiperSlide } from 'swiper/vue'
 import { Autoplay, Navigation, Pagination } from 'swiper/modules'
 import EyeBlink from '@/components/EyeBlink.vue'
+import LightSwitch from '@/components/LightSwitch.vue'
+import MistReveal from '@/components/MistReveal.vue'
+import youthCodeAchievement from '@/assets/Modern YouthCode Achievement Certificate.png'
+import youthCodeExcellence from '@/assets/YouthCode Project Certificate of Excellence.png'
+import cyberCertificate from '@/assets/cyber cert.png'
+import dataScienceCertificate from '@/assets/Data science cert.png'
 import 'swiper/css'
 import 'swiper/css/navigation'
 import 'swiper/css/pagination'
 
 const modules = [Autoplay, Navigation, Pagination]
+const ready = ref(false)
+const lightOn = ref(false)
 const contactForm = ref({ name: '', email: '', message: '' })
 const messageSent = ref(false)
 
@@ -22,23 +30,18 @@ const skills = [
   { mark: 'GIT', name: 'Git', tone: 'text-orange-300' },
 ]
 
-const certifications = Array.from({ length: 6 }, (_, index) => ({
-  image: `https://via.placeholder.com/400x280?text=CERTIFICATE+${index + 1}`,
-  title: `Professional Certificate ${String(index + 1).padStart(2, '0')}`,
-  issuer: 'Learning Institution',
-  date: '2025',
-}))
+const certifications = [
+  { image: youthCodeAchievement, title: 'Modern YouthCode Achievement Certificate' },
+  { image: youthCodeExcellence, title: 'YouthCode Project Certificate of Excellence' },
+  { image: cyberCertificate, title: 'Cyber Certificate' },
+  { image: dataScienceCertificate, title: 'Data Science Certificate' },
+]
 
 const socialLinks = [
   { name: 'GitHub', href: 'https://github.com/', mark: 'GH' },
   { name: 'LinkedIn', href: 'https://www.linkedin.com/', mark: 'in' },
   { name: 'Email', href: 'mailto:hello@purity.dev', mark: '@' },
 ]
-
-function useCertificateFallback(event, cert) {
-  const artwork = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 280"><defs><linearGradient id="g" x2="1" y2="1"><stop stop-color="#123b31"/><stop offset="1" stop-color="#101217"/></linearGradient></defs><rect width="400" height="280" fill="url(#g)"/><rect x="18" y="18" width="364" height="244" rx="12" fill="none" stroke="#6ee7b7" stroke-opacity=".35"/><circle cx="200" cy="91" r="27" fill="#6ee7b7" fill-opacity=".12" stroke="#6ee7b7" stroke-opacity=".7"/><path d="m188 91 8 8 16-18" fill="none" stroke="#6ee7b7" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/><text x="200" y="153" fill="#e4e4e7" font-family="Arial,sans-serif" font-size="17" text-anchor="middle">CERTIFICATE ${cert}</text><text x="200" y="181" fill="#6ee7b7" font-family="Arial,sans-serif" font-size="10" letter-spacing="3" text-anchor="middle">PURITY.DEV</text><path d="M153 206h94" stroke="#fff" stroke-opacity=".2"/></svg>`
-  event.currentTarget.src = `data:image/svg+xml;charset=UTF-8,${encodeURIComponent(artwork)}`
-}
 
 function prepareEmail() {
   const { name, email, message } = contactForm.value
@@ -47,18 +50,19 @@ function prepareEmail() {
   window.location.href = `mailto:hello@purity.dev?subject=${subject}&body=${body}`
   messageSent.value = true
 }
-</script>
-<template>
-  <EyeMistReveal @revealed="ready = true" />
 
-  <div :class="ready? 'blur-0 opacity-100' : 'blur-[20px] opacity-0'"
-       class="transition-all duration-1000">
-    <EyeBlink />
-    <CertCarousel />
-  </div>
-</template>
+function setLightOn(value) {
+  lightOn.value = value
+}
+</script>
+
 <template>
-  <div class="min-h-screen overflow-hidden bg-[#0a0a0a] text-white">
+  <MistReveal @revealed="ready = true" />
+
+  <div
+    class="min-h-screen overflow-hidden bg-[#0a0a0a] text-white transition-all duration-1000"
+    :class="ready ? 'blur-0' : 'blur-[20px]'"
+  >
     <header class="sticky top-0 z-50 border-b border-white/[0.07] bg-[#0a0a0a]/85 backdrop-blur-xl">
       <nav
         class="mx-auto flex max-w-7xl items-center justify-between px-5 py-4 sm:px-8"
@@ -145,11 +149,18 @@ function prepareEmail() {
             Building for the web
           </div>
         </div>
-        <div class="relative flex justify-center lg:justify-end">
+        <div
+          class="relative flex w-full max-w-[440px] flex-col items-center justify-center gap-5 lg:items-end"
+        >
           <div
-            class="pointer-events-none absolute inset-0 m-auto h-72 w-72 rounded-full border border-emerald-300/10 sm:h-96 sm:w-96"
+            class="pointer-events-none absolute inset-x-0 top-0 mx-auto h-72 w-72 rounded-full border border-emerald-300/10 sm:h-96 sm:w-96 lg:left-auto lg:mx-0"
           ></div>
-          <EyeBlink />
+          <div class="relative z-10 w-full">
+            <EyeBlink :active="lightOn" />
+          </div>
+          <div class="relative z-10">
+            <LightSwitch @light-change="setLightOn" />
+          </div>
         </div>
       </section>
 
@@ -251,8 +262,13 @@ function prepareEmail() {
             :modules="modules"
             :slides-per-view="1"
             :space-between="18"
-            :loop="true"
-            :autoplay="{ delay: 4200, disableOnInteraction: false, pauseOnMouseEnter: true }"
+            :loop="false"
+            :autoplay="{
+              delay: 4200,
+              disableOnInteraction: false,
+              pauseOnMouseEnter: true,
+              stopOnLastSlide: true,
+            }"
             :navigation="{ prevEl: '.cert-prev', nextEl: '.cert-next' }"
             :pagination="{ clickable: true, el: '.cert-pagination' }"
             :breakpoints="{
@@ -270,20 +286,14 @@ function prepareEmail() {
                   :alt="`${cert.title} certificate preview`"
                   class="aspect-[10/7] w-full border-b border-white/10 bg-zinc-900 object-cover"
                   loading="lazy"
-                  @error="useCertificateFallback($event, cert.title.slice(-2))"
                 />
                 <div class="p-5">
-                  <div class="flex items-center justify-between gap-3">
+                  <div>
                     <p class="text-xs font-semibold uppercase tracking-[0.15em] text-emerald-300">
                       Certificate
                     </p>
-                    <span
-                      class="rounded-full border border-white/10 px-2.5 py-1 text-xs text-zinc-400"
-                      >{{ cert.date }}</span
-                    >
                   </div>
                   <h3 class="mt-4 font-semibold text-white">{{ cert.title }}</h3>
-                  <p class="mt-1 text-sm text-zinc-500">{{ cert.issuer }}</p>
                 </div>
               </article>
             </SwiperSlide>
