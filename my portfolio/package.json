@@ -10,14 +10,17 @@
     "format": "oxfmt src/"
   },
   "dependencies": {
+    "swiper": "^14.3.0",
     "vue": "^3.5.42",
     "vue-router": "^5.3.1",
     "vuex": "^4.0.2"
   },
   "devDependencies": {
+    "@tailwindcss/vite": "^4.3.3",
     "@vitejs/plugin-vue": "^6.0.8",
     "@vitejs/plugin-vue-jsx": "^5.1.6",
     "oxfmt": "^0.67.0",
+    "tailwindcss": "^4.3.3",
     "vite": "^8.2.2",
     "vite-plugin-vue-devtools": "^8.2.1"
   },
