@@ -9,6 +9,11 @@ import youthCodeAchievement from '@/assets/Modern YouthCode Achievement Certific
 import youthCodeExcellence from '@/assets/YouthCode Project Certificate of Excellence.png'
 import cyberCertificate from '@/assets/cyber cert.png'
 import dataScienceCertificate from '@/assets/Data science cert.png'
+import fitWellPreview from '@/assets/fitwell.png'
+import marketPulsePreview from '@/assets/market pulse.png'
+import modernTechPreview from '@/assets/modern tech.png'
+import rentospherePreview from '@/assets/rentosphere.png'
+import portfolioPortrait from '@/assets/portfolio pic.jpg'
 import 'swiper/css'
 import 'swiper/css/navigation'
 import 'swiper/css/pagination'
@@ -37,17 +42,44 @@ const certifications = [
   { image: dataScienceCertificate, title: 'Data Science Certificate' },
 ]
 
+const projects = [
+  {
+    title: 'FitWell',
+    description: 'A fitness coaching website for training, nutrition, and wellness support.',
+    image: fitWellPreview,
+    link: 'https://fittwell-coach.netlify.app/',
+  },
+  {
+    title: 'Market Pulse',
+    description: 'A dashboard for monitoring retail goods and digital asset prices.',
+    image: marketPulsePreview,
+    link: 'https://market-pulse-11gq.onrender.com/',
+  },
+  {
+    title: 'ModernTech HR Portal',
+    description: 'An HR dashboard for employee operations, attendance, and performance.',
+    image: modernTechPreview,
+    link: 'https://modern-tech-solutions00.netlify.app/',
+  },
+  {
+    title: 'Rentosphere',
+    description: 'A rental marketplace for tools, trailers, appliances, and event equipment.',
+    image: rentospherePreview,
+    link: 'https://e-commerce-project-ca0q.onrender.com/',
+  },
+]
+
 const socialLinks = [
-  { name: 'GitHub', href: 'https://github.com/', mark: 'GH' },
-  { name: 'LinkedIn', href: 'https://www.linkedin.com/', mark: 'in' },
-  { name: 'Email', href: 'mailto:hello@purity.dev', mark: '@' },
+  { name: 'GitHub', href: 'https://github.com/purritygwabeni43-tech', mark: 'GH' },
+  { name: 'LinkedIn', href: 'https://www.linkedin.com/in/purrity-gwabeni-24124a403', mark: 'in' },
+  { name: 'Email', href: 'mailto:purritygwabeni43@gmail.com', mark: '@' },
 ]
 
 function prepareEmail() {
   const { name, email, message } = contactForm.value
   const subject = encodeURIComponent(`Portfolio message from ${name}`)
   const body = encodeURIComponent(`${message}\n\nFrom: ${name} (${email})`)
-  window.location.href = `mailto:hello@purity.dev?subject=${subject}&body=${body}`
+  window.location.href = `mailto:purritygwabeni43@gmail.com?subject=${subject}&body=${body}`
   messageSent.value = true
 }
 
@@ -59,45 +91,50 @@ function setLightOn(value) {
 <template>
   <MistReveal @revealed="ready = true" />
 
+  <header
+    class="fixed inset-x-0 top-0 z-50 border-b border-white/[0.07] bg-[#0a0a0a]/85 backdrop-blur-xl"
+  >
+    <nav
+      class="mx-auto flex max-w-7xl items-center justify-between px-5 py-4 sm:px-8"
+      aria-label="Main navigation"
+    >
+      <a
+        href="#home"
+        class="rounded-sm text-lg font-bold tracking-tight text-white transition-colors hover:text-emerald-200 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-emerald-300"
+      >
+        Purrity<span class="text-emerald-400">.dev</span>
+      </a>
+      <div class="hidden items-center gap-8 md:flex">
+        <a
+          v-for="item in ['Home', 'About', 'Skills', 'Projects', 'Certifications', 'Contact']"
+          :key="item"
+          :href="`#${item.toLowerCase()}`"
+          class="rounded-sm text-sm text-zinc-400 transition-colors hover:text-emerald-300 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-emerald-300"
+          >{{ item }}</a
+        >
+      </div>
+      <a
+        href="#contact"
+        class="rounded-full border border-emerald-400/40 px-4 py-2 text-xs font-semibold text-emerald-300 transition-colors hover:bg-emerald-300 hover:text-zinc-950 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-emerald-300 md:hidden"
+        >Let's talk</a
+      >
+    </nav>
+    <div class="flex gap-6 overflow-x-auto px-5 pb-3 text-xs md:hidden">
+      <a
+        v-for="item in ['Home', 'About', 'Skills', 'Projects', 'Certifications', 'Contact']"
+        :key="item"
+        :href="`#${item.toLowerCase()}`"
+        class="shrink-0 rounded-sm text-zinc-400 transition-colors hover:text-emerald-300 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-emerald-300"
+        >{{ item }}</a
+      >
+    </div>
+  </header>
+
   <div
     class="min-h-screen overflow-hidden bg-[#0a0a0a] text-white transition-all duration-1000"
     :class="ready ? 'blur-0' : 'blur-[20px]'"
   >
-    <header class="sticky top-0 z-50 border-b border-white/[0.07] bg-[#0a0a0a]/85 backdrop-blur-xl">
-      <nav
-        class="mx-auto flex max-w-7xl items-center justify-between px-5 py-4 sm:px-8"
-        aria-label="Main navigation"
-      >
-        <a href="#home" class="text-lg font-bold tracking-tight text-white">
-          Purity<span class="text-emerald-400">.dev</span>
-        </a>
-        <div class="hidden items-center gap-8 md:flex">
-          <a
-            v-for="item in ['Home', 'About', 'Skills', 'Certifications', 'Contact']"
-            :key="item"
-            :href="`#${item.toLowerCase()}`"
-            class="text-sm text-zinc-400 transition hover:text-emerald-300"
-            >{{ item }}</a
-          >
-        </div>
-        <a
-          href="#contact"
-          class="rounded-full border border-emerald-400/40 px-4 py-2 text-xs font-semibold text-emerald-300 transition hover:bg-emerald-300 hover:text-zinc-950 md:hidden"
-          >Let's talk</a
-        >
-      </nav>
-      <div class="flex gap-6 overflow-x-auto px-5 pb-3 text-xs md:hidden">
-        <a
-          v-for="item in ['Home', 'About', 'Skills', 'Certifications', 'Contact']"
-          :key="item"
-          :href="`#${item.toLowerCase()}`"
-          class="shrink-0 text-zinc-400 transition hover:text-emerald-300"
-          >{{ item }}</a
-        >
-      </div>
-    </header>
-
-    <main>
+    <main class="pt-[88px] md:pt-16">
       <section
         id="home"
         class="relative mx-auto grid min-h-[calc(100svh-69px)] max-w-7xl items-center gap-10 px-5 py-16 sm:px-8 lg:grid-cols-[1.05fr_0.95fr] lg:gap-8 lg:py-20"
@@ -129,7 +166,7 @@ function setLightOn(value) {
           </p>
           <div class="mt-9 flex flex-wrap gap-3">
             <a
-              href="#certifications"
+              href="#projects"
               class="rounded-full bg-emerald-300 px-6 py-3 text-sm font-bold text-zinc-950 transition hover:-translate-y-0.5 hover:bg-emerald-200"
               >View Projects <span aria-hidden="true">↗</span></a
             >
@@ -171,15 +208,11 @@ function setLightOn(value) {
           <div
             class="relative mx-auto aspect-[4/5] w-full max-w-sm overflow-hidden rounded-3xl border border-white/10 bg-gradient-to-br from-emerald-300/10 via-zinc-900 to-zinc-950"
           >
-            <div class="absolute inset-5 rounded-2xl border border-dashed border-white/10"></div>
-            <div class="absolute inset-0 flex flex-col items-center justify-center text-center">
-              <span
-                class="mb-4 flex h-20 w-20 items-center justify-center rounded-full border border-emerald-300/30 bg-emerald-300/10 text-3xl text-emerald-200"
-                >P.</span
-              >
-              <span class="text-sm font-medium text-zinc-300">Your portrait goes here</span>
-              <span class="mt-1 text-xs text-zinc-600">Add an image to personalize this space</span>
-            </div>
+            <img
+              :src="portfolioPortrait"
+              alt="Portrait"
+              class="absolute inset-0 h-full w-full object-cover object-center"
+            />
             <span class="absolute bottom-8 left-8 font-mono text-xs text-emerald-300/60"
               >&lt;about /&gt;</span
             >
@@ -230,6 +263,36 @@ function setLightOn(value) {
               <span class="mt-1 block text-xs text-zinc-500">Technology</span>
             </span>
           </article>
+        </div>
+      </section>
+
+      <section id="projects" class="scroll-mt-24 border-y border-white/[0.06] bg-white/[0.015]">
+        <div class="mx-auto max-w-7xl px-5 py-24 sm:px-8">
+          <p class="section-kicker">Selected work</p>
+          <h2 class="section-title">My Projects</h2>
+          <div class="project-grid mt-10">
+            <a
+              v-for="project in projects"
+              :key="project.title"
+              :href="project.link"
+              target="_blank"
+              rel="noopener noreferrer"
+              class="project-card group"
+            >
+              <figure class="project-art">
+                <img
+                  :src="project.image"
+                  :alt="`${project.title} project preview`"
+                  loading="lazy"
+                />
+                <figcaption>
+                  {{ project.title }}
+                  <span class="ml-1 text-emerald-300" aria-hidden="true">↗</span>
+                </figcaption>
+              </figure>
+              <p class="project-description">{{ project.description }}</p>
+            </a>
+          </div>
         </div>
       </section>
 
@@ -386,11 +449,13 @@ function setLightOn(value) {
       <div
         class="mx-auto flex max-w-7xl flex-col gap-3 px-5 py-7 text-xs text-zinc-500 sm:flex-row sm:items-center sm:justify-between sm:px-8"
       >
-        <a href="#home" class="text-sm font-semibold text-zinc-300"
-          >Purity<span class="text-emerald-400">.dev</span></a
+        <a
+          href="#home"
+          class="rounded-sm text-sm font-semibold text-zinc-300 transition-colors hover:text-emerald-300 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-emerald-300"
+          >Purrity<span class="text-emerald-400">.dev</span></a
         >
         <p>Designed with curiosity. Built with care.</p>
-        <p>© {{ new Date().getFullYear() }} Purity. All rights reserved.</p>
+        <p>© {{ new Date().getFullYear() }} Purrity. All rights reserved.</p>
       </div>
     </footer>
   </div>
@@ -399,7 +464,7 @@ function setLightOn(value) {
 <style>
 html {
   scroll-behavior: smooth;
-  scroll-padding-top: 5rem;
+  scroll-padding-top: 6rem;
 }
 
 body {
@@ -420,6 +485,69 @@ body {
   font-weight: 600;
   letter-spacing: -0.055em;
   line-height: 1.12;
+}
+
+.project-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 220px), 1fr));
+  gap: 2rem;
+}
+
+.project-card {
+  min-width: 0;
+  color: inherit;
+  text-decoration: none;
+}
+
+.project-art {
+  display: grid;
+  grid-template-rows: 100%;
+  aspect-ratio: 1;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+  border: 1px solid rgb(255 255 255 / 10%);
+  border-radius: 1rem;
+  background: #111;
+  filter: drop-shadow(0 0 20px rgb(0 0 0 / 50%));
+  cursor: pointer;
+  transform: perspective(800px) translateZ(0);
+  transform-style: preserve-3d;
+}
+
+.project-art img {
+  grid-area: 1 / 1;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+}
+
+.project-art figcaption {
+  grid-area: 1 / 1;
+  align-self: end;
+  padding: 2.5rem 1rem 1rem;
+  background: linear-gradient(transparent, rgb(0 0 0 / 85%));
+  color: white;
+  font-size: clamp(1rem, 2vw, 1.4rem);
+  font-weight: 700;
+}
+
+.project-card:hover .project-art,
+.project-card:focus-visible .project-art {
+  animation: project-forward-pulse 650ms ease-out;
+}
+
+.project-description {
+  max-width: 28rem;
+  color: #a1a1aa;
+  font-size: 0.875rem;
+  line-height: 1.6;
+}
+
+.project-card:focus-visible {
+  outline: 2px solid #6ee7b7;
+  outline-offset: 0.5rem;
 }
 
 .form-label {
@@ -468,6 +596,27 @@ body {
 @media (prefers-reduced-motion: reduce) {
   html {
     scroll-behavior: auto;
+  }
+
+  .project-card:hover .project-art,
+  .project-card:focus-visible .project-art {
+    animation: none;
+    transform: none;
+  }
+
+  .project-art {
+    transition: none;
+  }
+}
+
+@keyframes project-forward-pulse {
+  0%,
+  100% {
+    transform: perspective(800px) translateZ(0);
+  }
+
+  45% {
+    transform: perspective(800px) translateZ(38px) scale(1.035);
   }
 }
 </style>
