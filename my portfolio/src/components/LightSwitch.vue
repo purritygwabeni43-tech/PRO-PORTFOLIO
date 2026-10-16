@@ -32,7 +32,7 @@ function toggleLight() {
     <div class="social-links" aria-label="Social links">
       <a
         class="social-link"
-        href="https://github.com/"
+        href="https://github.com/purritygwabeni43-tech"
         target="_blank"
         rel="noreferrer"
         aria-label="GitHub"
@@ -47,7 +47,7 @@ function toggleLight() {
       </a>
       <a
         class="social-link"
-        href="https://www.linkedin.com/"
+        href="https://www.linkedin.com/in/purrity-gwabeni-24124a403"
         target="_blank"
         rel="noreferrer"
         aria-label="LinkedIn"
@@ -60,7 +60,12 @@ function toggleLight() {
           />
         </svg>
       </a>
-      <a class="social-link" href="mailto:hello@purity.dev" aria-label="Email" title="Email">
+      <a
+        class="social-link"
+        href="mailto:purritygwabeni43@gmail.com"
+        aria-label="Email"
+        title="Email"
+      >
         <svg viewBox="0 0 24 24" aria-hidden="true">
           <path
             fill="currentColor"

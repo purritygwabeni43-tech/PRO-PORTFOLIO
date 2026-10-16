@@ -1,7 +1,7 @@
 <script setup>
-import { ref } from 'vue'
+import { onMounted, ref } from 'vue'
 import { Swiper, SwiperSlide } from 'swiper/vue'
-import { Autoplay, Navigation, Pagination } from 'swiper/modules'
+import { Autoplay, Pagination } from 'swiper/modules'
 import EyeBlink from '@/components/EyeBlink.vue'
 import LightSwitch from '@/components/LightSwitch.vue'
 import MistReveal from '@/components/MistReveal.vue'
@@ -15,14 +15,18 @@ import modernTechPreview from '@/assets/modern tech.png'
 import rentospherePreview from '@/assets/rentosphere.png'
 import portfolioPortrait from '@/assets/portfolio pic.jpg'
 import 'swiper/css'
-import 'swiper/css/navigation'
 import 'swiper/css/pagination'
 
-const modules = [Autoplay, Navigation, Pagination]
+const modules = [Autoplay, Pagination]
 const ready = ref(false)
 const lightOn = ref(false)
+const certificationSwiper = ref(null)
 const contactForm = ref({ name: '', email: '', message: '' })
 const messageSent = ref(false)
+
+onMounted(() => {
+  window.scrollTo({ top: 0, behavior: 'instant' })
+})
 
 const skills = [
   { mark: 'JS', name: 'JavaScript', tone: 'text-yellow-300' },
@@ -31,7 +35,6 @@ const skills = [
   { mark: 'PHP', name: 'PHP', tone: 'text-violet-300' },
   { mark: 'N', name: 'Node.js', tone: 'text-lime-300' },
   { mark: 'SQL', name: 'MySQL', tone: 'text-cyan-300' },
-  { mark: 'CSS', name: 'Tailwind CSS', tone: 'text-teal-300' },
   { mark: 'GIT', name: 'Git', tone: 'text-orange-300' },
 ]
 
@@ -85,6 +88,16 @@ function prepareEmail() {
 
 function setLightOn(value) {
   lightOn.value = value
+}
+
+function slideCertifications(direction) {
+  if (!certificationSwiper.value) return
+
+  if (direction === 'previous') {
+    certificationSwiper.value.slidePrev()
+  } else {
+    certificationSwiper.value.slideNext()
+  }
 }
 </script>
 
@@ -205,17 +218,22 @@ function setLightOn(value) {
         <div
           class="mx-auto grid max-w-7xl gap-12 px-5 py-24 sm:px-8 md:grid-cols-[0.8fr_1.2fr] md:items-center"
         >
-          <div
-            class="relative mx-auto aspect-[4/5] w-full max-w-sm overflow-hidden rounded-3xl border border-white/10 bg-gradient-to-br from-emerald-300/10 via-zinc-900 to-zinc-950"
-          >
-            <img
-              :src="portfolioPortrait"
-              alt="Portrait"
-              class="absolute inset-0 h-full w-full object-cover object-center"
-            />
-            <span class="absolute bottom-8 left-8 font-mono text-xs text-emerald-300/60"
-              >&lt;about /&gt;</span
+          <div class="mx-auto w-full max-w-sm">
+            <div
+              class="relative aspect-[4/5] w-full overflow-hidden rounded-3xl border border-white/10 bg-gradient-to-br from-emerald-300/10 via-zinc-900 to-zinc-950"
             >
+              <img
+                :src="portfolioPortrait"
+                alt="Portrait"
+                class="absolute inset-0 h-full w-full object-cover object-center"
+              />
+              <span class="absolute bottom-8 left-8 font-mono text-xs text-emerald-300/60"
+                >&lt;about /&gt;</span
+              >
+            </div>
+            <p class="mt-4 text-center text-xl font-semibold tracking-wide text-white sm:text-2xl">
+              Purrity Gwabeni
+            </p>
           </div>
           <div>
             <p class="section-kicker">A little about me</p>
@@ -308,14 +326,18 @@ function setLightOn(value) {
             </div>
             <div class="flex gap-2">
               <button
-                class="cert-prev flex h-11 w-11 items-center justify-center rounded-full border border-white/10 text-lg text-zinc-300 transition hover:border-emerald-300/50 hover:text-emerald-200"
+                type="button"
+                class="flex h-11 w-11 items-center justify-center rounded-full border border-white/10 text-lg text-zinc-300 transition hover:border-emerald-300/50 hover:text-emerald-200"
                 aria-label="Previous certifications"
+                @click="slideCertifications('previous')"
               >
                 ←
               </button>
               <button
-                class="cert-next flex h-11 w-11 items-center justify-center rounded-full border border-white/10 text-lg text-zinc-300 transition hover:border-emerald-300/50 hover:text-emerald-200"
+                type="button"
+                class="flex h-11 w-11 items-center justify-center rounded-full border border-white/10 text-lg text-zinc-300 transition hover:border-emerald-300/50 hover:text-emerald-200"
                 aria-label="Next certifications"
+                @click="slideCertifications('next')"
               >
                 →
               </button>
@@ -332,13 +354,13 @@ function setLightOn(value) {
               pauseOnMouseEnter: true,
               stopOnLastSlide: true,
             }"
-            :navigation="{ prevEl: '.cert-prev', nextEl: '.cert-next' }"
             :pagination="{ clickable: true, el: '.cert-pagination' }"
             :breakpoints="{
               640: { slidesPerView: 2, spaceBetween: 20 },
               1024: { slidesPerView: 3, spaceBetween: 24 },
             }"
             class="cert-swiper !overflow-visible"
+            @swiper="certificationSwiper = $event"
           >
             <SwiperSlide v-for="cert in certifications" :key="cert.title" class="h-auto">
               <article
