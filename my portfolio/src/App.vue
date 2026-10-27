@@ -19,7 +19,7 @@ import 'swiper/css/pagination'
 
 const modules = [Autoplay, Pagination]
 const ready = ref(false)
-const lightOn = ref(false)
+const lightOn = ref(true)
 const certificationSwiper = ref(null)
 const contactForm = ref({ name: '', email: '', message: '' })
 const messageSent = ref(false)

@@ -2,7 +2,7 @@
 import { ref } from 'vue'
 
 const emit = defineEmits(['light-change'])
-const lightOn = ref(false)
+const lightOn = ref(true)
 
 function toggleLight() {
   lightOn.value = !lightOn.value
